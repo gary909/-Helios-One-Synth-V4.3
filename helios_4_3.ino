@@ -38,11 +38,13 @@
  // A BlogHoskins Monstrosity @ 2019 / 2020
 // https://bloghoskins.blogspot.com/
 
-/*   v4.3 LFO implementation
+/*    v4.3 LFO implementation
  *    LFO is working(?), but filter is interfering.  Figure it out!
+ *    *replaced pin assignments 'const int' with #define -> now reassign values to stop distortion
  *    
+ 
  *    V3.1 - Minor Updates
- *   *IImproved Filter Resonance (?).  Apparantly After setting resonance, you need to call setCuttoffFreq() to hear the change.
+ *   *Improved Filter Resonance (?).  Apparantly After setting resonance, you need to call setCuttoffFreq() to hear the change.
  *   Swapped order of cut-off and resonance in code.  Filter Sounds Better now?
  *   *Increased note sustain from 10 seconds to 60 seconds
  *   *OSC OUTPUT made louder on audio update>>9; // changed down from 10 to 9 because was louder
@@ -99,12 +101,12 @@ Oscil<COS2048_NUM_CELLS, CONTROL_RATE> kFilterMod(COS2048_DATA);
 StateVariable <NOTCH> svf; // can be LOWPASS, BANDPASS, HIGHPASS or NOTCH
 
 //// Set up LFO Rate Pot****************************************************************************************
-const int LFOratePot = A1;    // select the input pin for the potentiometer
+#define LFOratePot A1    // select the input pin for the potentiometer
 AutoMap LFOratePotMap(0, 1023, 0, 1300);  // LFO Rate mapped to 1500
 //***************END********************************************************************************************
 
 //// ****************Set up LFO Res Pot*************************************************************************
-const int LFOresPot = A0;    // select the input pin for the potentiometer
+#define LFOresPot A0    // select the input pin for the potentiometer
 AutoMap LFOresPotMap(0, 1023, 5, 212);  // 0-255 val distorted, 2-212 within range - find better value?
 //***************END********************************************************************************************
 
@@ -122,25 +124,25 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 
 
 // Set up Attack & Decay Envelope
-const int atkPot = A5;    // select the input pin for the potentiometer
+#define atkPot A5    // select the input pin for the potentiometer
 //int atkVal = 0;       // variable to store the value coming from the pot
 AutoMap atkPotMap(0, 1023, 0, 3000);  // remap the atk pot to 4 seconds
-const int dkyPot = A4;    // select the input pin for the potentiometer
+#define dkyPot A4    // select the input pin for the potentiometer
 //int dkyVal = 0;       // variable to store the value coming from the pot
 AutoMap dkyPotMap(0, 1023, 0, 3000);  // remap the atk pot to 4 seconds
 
 
 //*******CUT-OFF POT***********
-int cutoffPot = A2;    // cut-off pot will be on A2
+#define cutoffPot A2    // cut-off pot will be on A2
 int cutVal; //a value to store cutoff freq amount
 
 //*******RESONANCE POT***********
-int resPot = A3;    // resonance pot will be on A2
+#define resPot A3    // resonance pot will be on A2
 int resVal; //a value to store resonance amount value
 
 
 // use #define for CONTROL_RATE, not a constant
-#define CONTROL_RATE 128 // powers of 2 please
+#define CONTROL_RATE 64 // powers of 2 please
 
 // audio sinewave oscillator
 Oscil <SAW2048_NUM_CELLS, AUDIO_RATE> oscil1; //Saw Wav
